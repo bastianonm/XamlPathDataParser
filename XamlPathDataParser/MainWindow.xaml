@@ -1,0 +1,198 @@
+﻿<Window x:Class="XamlPathDataParser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XamlPathDataParser"
+        
+        xmlns:localData="clr-namespace:XamlPathDataParser.DataContext.PathDataItems"
+        
+        mc:Ignorable="d"
+        Title="Xaml Path Data Parser" Height="350" Width="525">
+
+    <Window.Resources>
+
+        <Style TargetType="TextBlock" x:Key="ListTitle">
+            <Setter Property="Width" Value="50"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+
+            <DataTemplate DataType="{x:Type localData:PathDataItemMove}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Move" Style="{StaticResource ListTitle}" VerticalAlignment="Center"></TextBlock>
+                    <StackPanel>
+                        <TextBlock Text="Point" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Text="{Binding StartPoint.X}"></TextBox>
+                        <TextBox Text="{Binding StartPoint.Y}"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type localData:PathDataItemLine}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Line" Style="{StaticResource ListTitle}" VerticalAlignment="Center"></TextBlock>
+
+                    <ItemsControl ItemsSource="{Binding EndPoints}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="Point" HorizontalAlignment="Center"></TextBlock>
+                                    <TextBox Text="{Binding X}"></TextBox>
+                                    <TextBox Text="{Binding Y}"></TextBox>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel></WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>                    
+                    
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type localData:PathDataItemHorizontalLine}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Line H" Style="{StaticResource ListTitle}" VerticalAlignment="Center"></TextBlock>
+                    <StackPanel>
+                        <TextBlock Text="Point" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Text="{Binding X}"></TextBox>
+                        <TextBox Text="" IsEnabled="False"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type localData:PathDataItemVerticalLine}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Line V" Style="{StaticResource ListTitle}" VerticalAlignment="Center"></TextBlock>
+                    <StackPanel>
+                        <TextBlock Text="Point" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Text="" IsEnabled="False"></TextBox>
+                        <TextBox Text="{Binding Y}"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type localData:PathDataItemCubicBezierCurve}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Curve" Style="{StaticResource ListTitle}" VerticalAlignment="Center"></TextBlock>
+
+                    <StackPanel>
+                        <TextBlock Text="P1" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Text="{Binding ControlPoint1.X}"></TextBox>
+                        <TextBox Text="{Binding ControlPoint1.Y}"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="P2" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Text="{Binding ControlPoint2.X}"></TextBox>
+                        <TextBox Text="{Binding ControlPoint2.Y}"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="End" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Text="{Binding EndPoint.X}"></TextBox>
+                        <TextBox Text="{Binding EndPoint.Y}"></TextBox>
+                    </StackPanel>
+
+                </StackPanel>
+            </DataTemplate>
+
+
+
+            <DataTemplate DataType="{x:Type localData:PathDataItemEllipticalArc}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Curve" Style="{StaticResource ListTitle}" VerticalAlignment="Center"></TextBlock>
+
+                    <StackPanel>
+                        <TextBlock Text="Size" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Text="{Binding size.Width}"></TextBox>
+                        <TextBox Text="{Binding size.Height}"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Rotation" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Text="{Binding rotationAngle}"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <CheckBox IsChecked="{Binding isLargeArc}" Content="LargeArc" Margin="0 15 0 0"></CheckBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Sweep Dir." ToolTip="Sweep Direction" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Text="{Binding sweepDirection}"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="End" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Text="{Binding EndPoint.X}"></TextBox>
+                        <TextBox Text="{Binding EndPoint.Y}"></TextBox>
+                    </StackPanel>
+
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type localData:PathDataItemClose}">
+                <TextBlock Text="Close"></TextBlock>
+            </DataTemplate>
+
+        </Grid.Resources>
+        
+        <Grid Grid.ColumnSpan="3" >
+            <TextBlock Text="Insert your Path Data" Margin="5 0"  VerticalAlignment="Top"></TextBlock>
+            <TextBox Margin="5 20 5 5" TextChanged="TextBox_TextChanged" AcceptsReturn="True"></TextBox>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" />
+
+        <ListBox Grid.Row="2" Grid.Column="0" Name="ListBoxItems" SelectionChanged="ListBoxItems_SelectionChanged" >
+
+            
+        </ListBox>
+   
+        <GridSplitter Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"  HorizontalAlignment="Stretch" />
+
+        <Grid Grid.Row="3" Grid.Column="3" MouseWheel="DrawingCanvas_MouseWheel" Background="White">
+            <Separator></Separator>
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" HorizontalAlignment="Center"  />
+        </Grid>      
+        
+        <Canvas Grid.Row="3" Grid.Column="3" Name="DrawingCanvas" VerticalAlignment="Center" HorizontalAlignment="Center"  >
+            <Canvas.LayoutTransform>
+                <ScaleTransform ScaleX="1" ScaleY="1" x:Name="DrawingCanvasScaleTransform"></ScaleTransform>
+            </Canvas.LayoutTransform>
+
+
+            <Path Name="FirstPath" Fill="Gray" Stroke="Black" ></Path>
+
+            <Path Name="SecondPath" Fill="Gray" Stroke="Black" >
+                <Path.Data>
+                    <PathGeometry x:Name="SecondPathGeometry">
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+
+            <Path Name="HilightedPath" Fill="Red" Stroke="Red" >
+            </Path>
+
+        </Canvas>
+
+    </Grid>
+</Window>

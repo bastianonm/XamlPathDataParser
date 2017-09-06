@@ -32,9 +32,10 @@ namespace XamlPathDataParser.Parser
                 if (string.IsNullOrWhiteSpace(mydataItem))
                     continue;
 
-                if (mydataItem == "F1" || mydataItem == "F2")
+                if (mydataItem == "F0" || mydataItem == "F1")
                 {
                     // sot supported so far
+                    yield return new PathDataItemFillRule(mydataItem);
                     continue;
                 }
 

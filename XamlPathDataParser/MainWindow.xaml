@@ -32,6 +32,16 @@
 
         <Grid.Resources>
 
+            <DataTemplate DataType="{x:Type localData:PathDataItemFillRule}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Fill" Style="{StaticResource ListTitle}" VerticalAlignment="Center"></TextBlock>
+                    <StackPanel>
+                        <TextBlock Text="Rule" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Text="{Binding FillRule}"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type localData:PathDataItemMove}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Move" Style="{StaticResource ListTitle}" VerticalAlignment="Center"></TextBlock>

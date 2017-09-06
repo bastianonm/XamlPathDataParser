@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using XamlPathDataParser.DataContext.PathDataItems;
 
 namespace XamlPathDataParser
@@ -31,8 +23,14 @@ namespace XamlPathDataParser
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            TextBox tb = (sender as TextBox);
 
-            string ParsedDataText = (sender as TextBox).Text;
+            tb.Background = Brushes.White;
+
+            try
+            {
+
+            string ParsedDataText = tb.Text;
 
             var ParsedDataItems = Parser.PathDataParser.ParseData(ParsedDataText);
 
@@ -41,7 +39,7 @@ namespace XamlPathDataParser
 
                 if (dc.PathDataItems == null)
                 {
-                    dc.PathDataItems = new System.Collections.ObjectModel.ObservableCollection<DataContext.PathDataItems.IPathDataItem>();
+                    dc.PathDataItems = new System.Collections.ObjectModel.ObservableCollection<IPathDataItem>();
                 }
                 else
                 {
@@ -60,6 +58,11 @@ namespace XamlPathDataParser
             FirstPath.Data = Geometry.Parse(ParsedDataText);
 
             DrawSecondPath(ParsedDataItems);
+            }
+            catch (Exception)
+            {
+                tb.Background = new SolidColorBrush(Color.FromArgb(20,255,0,0));
+            }
 
         }
 
@@ -82,8 +85,18 @@ namespace XamlPathDataParser
             foreach (var item in ParsedDataItems)
             {
                 index++;
-
-                if (item is PathDataItemClose)
+                if (item is PathDataItemFillRule)
+                {
+                    if ((item as PathDataItemFillRule).FillRule == 0)
+                    {
+                        SecondPathGeometry.FillRule = FillRule.EvenOdd;
+                    }
+                    else
+                    {
+                        SecondPathGeometry.FillRule = FillRule.Nonzero;
+                    }                 
+                }
+                else if (item is PathDataItemClose)
                 {
                     pathGeometryFigure = new PathFigure();
                     pathGeometryFigures.Add(pathGeometryFigure);
